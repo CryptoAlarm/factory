@@ -1,0 +1,7 @@
+{
+  "name": "factory",
+  "version": "1.0.0",
+  "description": "Responsible for updating prices and information regarding bots",
+  "main": "index.js",
+  "license": "MIT"
+}
