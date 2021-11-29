@@ -1,0 +1,1 @@
+export const endpoint = "https://api.mir4global.com/wallet/prices/draco/lastest"

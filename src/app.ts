@@ -1,22 +1,19 @@
-import {coinGeckoPrice} from "./services/coingecko"
-import {PancakeswapPrice} from "./services/pancake"
+import {coinGeckoPrice} from "./providers/coingecko"
+import {PancakeswapPrice} from "./providers/pancake"
+import {FactoryChain} from "./providers/factoryChain"
+import {Mir4} from "./providers/mir4"
 
 
 
 
-;import { CoingeckoResponse } from "./types";
-(async() => {
+;(async() => {
 
 
-  console.log(await   coinGeckoPrice(["wanaka-farm"]))
 
-
-  console.log(await PancakeswapPrice({
-    contract: "0x0feb3bdf0d619191a25bfae0b8069164511cd8c9",
-    ref: "fishytank",
+  console.log(await Mir4({
     prices: {
       brl: 5.50,
-      php: 30,
+      php: 30
     }
   }))
 
