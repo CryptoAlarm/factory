@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "web3": "^1.6.1",
+    "web3-eth-contract": "^1.6.1"
   },
   "scripts": {
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts"
