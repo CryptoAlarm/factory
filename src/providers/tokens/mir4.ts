@@ -11,12 +11,12 @@ export const Mir4  = async (props: Mir4Props): Promise<Partial<TokenData>> => {
   try{
     let TokenData = {} as TokenData
 
-    const response = await axios.post<Mir4Response>(endpoint)
+    const {data} = await axios.post<Mir4Response>(endpoint)
             
-    if (response.data?.Data?.DracoPrice) {
+    if (data?.Data?.DracoPrice) {
 
-      const dracoInWemix = parseFloat(response.data?.Data?.DracoPrice)
-      const USDWemixRate = parseFloat(response.data?.Data?.USDWemixRate)  
+      const dracoInWemix = parseFloat(data?.Data?.DracoPrice)
+      const USDWemixRate = parseFloat(data?.Data?.USDWemixRate)  
       const USDdracoPrice = dracoInWemix * USDWemixRate;
 
       TokenData["draco"] = {
