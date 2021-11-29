@@ -1,6 +1,6 @@
 import axios from "axios";
-import {FactorychainResponse, FactoryChainProps, TokenData} from "../types"
-import {endpoint, query} from "../config/factoryChain"
+import {FactorychainResponse, FactoryChainProps, TokenData} from "../../types"
+import {endpoint, query} from "../../config/factoryChain"
 
 
 
@@ -9,18 +9,21 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
   try {
     let TokenData = {} as TokenData
 
-    const response = await axios.post<FactorychainResponse>(endpoint, query)
+    const {data: ResponseFactory} = await axios.post<FactorychainResponse>(endpoint, query)
 
-    const ___data = response.data?.data
-
-    if (!___data) {
+    if (!ResponseFactory.data) {
       throw new Error("Failed to fetch factorychain graphql");      
     }
 
+
+    const List = ResponseFactory.data
+
+
+
     let index = -1
 
-    for (let i = 0; i < ___data.transactions?.length; i++) {
-      let data = ___data.transactions[i].swaps[0]
+    for (let i = 0; i < List.transactions?.length; i++) {
+      let data = List.transactions[i].swaps[0]
 
       let token0 = data.pair.token0.symbol
       let token1 = data.pair.token1.symbol
@@ -30,14 +33,13 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
         break
       }
 
-      if (i > 10) break
     }
 
     if (index == -1) {
       throw new Error("Inst about fpvu or fusd")
     }
 
-    let data = ___data.transactions[index].swaps[0]
+    let data = List.transactions[index].swaps[0]
 
 
     let token0 = data.pair.token0.symbol

@@ -1,5 +1,5 @@
-import { coinGeckoApiURL, currencyList } from "../config/coingecko"
-import {CoingeckoResponse, TokenData} from "../types"
+import { coinGeckoApiURL, currencyList } from "../../config/coingecko"
+import {CoingeckoResponse, TokenData} from "../../types"
 import axios from "axios"
 
 const buildEndpointURL = (token: string): string => {

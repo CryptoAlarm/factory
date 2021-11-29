@@ -1,10 +1,10 @@
 
 import axios from "axios"
 
-import {endpoint} from "../config/mir4"
+import {endpoint} from "../../config/mir4"
 
 
-import {Mir4Props, Mir4Response, TokenData} from "../types"
+import {Mir4Props, Mir4Response, TokenData} from "../../types"
 
 export const Mir4  = async (props: Mir4Props): Promise<Partial<TokenData>> => {
 

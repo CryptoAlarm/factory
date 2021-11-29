@@ -1,7 +1,7 @@
-import {coinGeckoPrice} from "./providers/coingecko"
-import {PancakeswapPrice} from "./providers/pancake"
-import {FactoryChain} from "./providers/factoryChain"
-import {Mir4} from "./providers/mir4"
+import {coinGeckoPrice} from "./providers/tokens/coingecko"
+import {PancakeswapPrice} from "./providers/tokens/pancake"
+import {FactoryChain} from "./providers/tokens/factoryChain"
+import {Mir4} from "./providers/tokens/mir4"
 
 
 
