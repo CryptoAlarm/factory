@@ -54,6 +54,8 @@ export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial
     return TokenData
   
   } catch (error) {
+
+    console.log(error)
     
     return {}
   }
