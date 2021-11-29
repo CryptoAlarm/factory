@@ -14,8 +14,10 @@ export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial
   try {      
     let TokenData = {}
 
-    const {contract, ref } = props
+    let { contract, ref } = props
 
+    contract = contract.toLowerCase()
+    
     let {data: response} = await axios.get<PancakeResponse>(`${endpoint}${contract}`)
 
     if (! response.updated_at) {
@@ -30,13 +32,18 @@ export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial
         response.data.symbol === "unknown") 
     {
       /**
-       * Sometimes pancake swap response is wrong formated, 
+       * Sometimes pancakeswap response is wrong formated, 
        * that means decimal part isn't splitted yet.
        * Usually you use 18 decimal parts in BSC.       
+       * 
+       * WARNING: if response is wrong formated and decimal parts isnt 18,
+       * you should change below
        */
 
+      const DECIMAL_PARTS = 18
+      
       let temp = response.data.price.split(".")[1] || ""
-      price = parseFloat(insert(temp, 18, ".")) 
+      price = parseFloat(insert(temp, DECIMAL_PARTS, ".")) 
     }
 
     else {
