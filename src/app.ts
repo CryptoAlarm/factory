@@ -3,8 +3,11 @@ import {PancakeswapPrice} from "./providers/tokens/pancake"
 import {FactoryChain} from "./providers/tokens/factoryChain"
 import {Mir4} from "./providers/tokens/mir4"
 
+import { TokenData } from "./types";
 
 
+
+let TokenPricesList = {} as TokenData
 
 ;(async() => {
 
