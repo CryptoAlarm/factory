@@ -1,0 +1,1 @@
+export const endpoint = "https://api.pancakeswap.info/api/v2/tokens/"

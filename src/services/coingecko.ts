@@ -1,4 +1,6 @@
-
+import { coinGeckoApiURL, currencyList } from "../config/coingecko"
+import {TokenData} from "../types/index"
+import axios from "axios"
 
 const buildEndpointURL = (token: string): string => {
   return (
@@ -6,21 +8,17 @@ const buildEndpointURL = (token: string): string => {
   );
 };
 
-export const coinGeckoPrice = async (
-  token: string
-): Promise<ApiResponse> => {
+export const coinGeckoPrice = async (token: string): Promise<Partial<TokenData>> => {
   try {
     const response = await axios.get(buildEndpointURL(token));
     const data = response.data;
 
-    if (!data) return {};
-
-   
-
+    if (!data) return {}; 
 
     return data;
 
   } catch (error) {
+    
     console.log("Failed to request endpoint: " + buildEndpointURL(token));
 
     return {};
