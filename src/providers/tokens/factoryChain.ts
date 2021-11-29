@@ -3,7 +3,23 @@ import {FactorychainResponse, FactoryChainProps, TokenData} from "../../types"
 import {endpoint, query} from "../../config/factoryChain"
 
 
-
+/** 
+ * Maybe in the future there is some API that will make easier
+ * fetch prices on FactoryChain, by now, once way I find out is
+ * tracking graphql api that scan.factorychain request from it front-end.
+ * 
+ * It's quite simple, we POST the endpoint that provide transactions history, 
+ * listing the last 50 transactions (you can change the limit on /src/config/factoryChain.ts query)
+ * 
+ * ASC order, check one by one, if transaction pair is composed by FPVU and FUSD,
+ * if no, go to next until find FPVU -> FUSD or FUSD -> FPVU.
+ * 
+ * then, divide FUSD/FPVU to find out FPVU price in dolar.
+ * 
+ * notice that pair is named "token0" and "token1" by api response interface 
+ * if you cannot find any match of pair FPVU => FUSD or FUSD => FPVU, module will
+ * throw a exception (maybe increase the limit)
+ */
 export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<TokenData>> => {
  
   try {
@@ -54,12 +70,8 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
       //Se o token1 é FUSD e a entrada foi zero, ELE COMPROU FPVU
       if (data.amount1In == "0" && data.amount1Out != "0") {
         
-        //Como o token1 é FUSD, a evidência está sempre em cima do dolar
-
         let fusd = parseFloat(data.amount1Out)
-        let fpvu = parseFloat(data.amount0In)
-
-        
+        let fpvu = parseFloat(data.amount0In)        
 
         TokenData["fpvu"] = {
           usd: ((fusd / fpvu)),
