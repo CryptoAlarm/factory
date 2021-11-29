@@ -9,6 +9,8 @@ let TokenPricesList = {} as TokenData;
 
   const { data } = await axios.get<Tokens[]>(endpoint);
 
+
+  //Reduce a Tokens[] array into a TokensReduce object type
   const Tokens = data.reduce((tokens, current) => {
     tokens[current.api] = tokens[current.api] || [];
 
@@ -18,14 +20,34 @@ let TokenPricesList = {} as TokenData;
     });
 
     return tokens;
-  }, {} as TokensReduce);
+  }, {} as TokensReduce)
 
+
+  /**
+   * @var key: Providers
+   * @type Providers = apeswap | mir4 | factorychain | pancakeswap | coingecko
+   * 
+   * Fetch all nodes in TokensReduce object mapping their key with ProvidersMap
+   * ProvidersMap, then maps keys to their particular callbacks signed on /src/providers/tokens/
+   * 
+   * Response will be assign into a global variable TokenPricesList that should be POSTed to server
+   */
   Object.keys(Tokens).map(async (key: Providers) => {
+
+    /**
+     * Coingecko API supports all entire references in once request,
+     * that means we pass all reference-id in a string[] to coingecko Provider.     * 
+     * the rest are called one by one
+     */
     if (key !== "coingecko") {
       Tokens[key]?.map(async (token) => {
         try {
           const price = await ProvidersMap[key].call(this, token)
-          TokenPricesList = { ...TokenPricesList, ...price }
+          
+          TokenPricesList = { 
+            ...TokenPricesList, 
+            ...price 
+          }
 
         } catch (error) {}
       })
@@ -35,10 +57,25 @@ let TokenPricesList = {} as TokenData;
 
         let response = await ProvidersMap[key].call(this, { refList })
 
+        let keys = Object.keys(response)
 
-        if (Object.keys(response).length) {
-          TokenPricesList = { ...TokenPricesList, ...response }
+        if (keys.length) {
+          TokenPricesList = { 
+            ...TokenPricesList, 
+            ...response 
+          }
         }
+       
+        if (keys.includes("binance-usd")) {
+          /*
+          * Schedule to upsert ProvidersConfig prices object.
+          * Since only coingecko return subcurrencies value, 
+          * we share it with another Providers aka pancake, apeswap...
+          */
+          ProvidersConfig.prices.prices.brl = response["binance-usd"].brl
+          ProvidersConfig.prices.prices.php = response["binance-usd"].php
+        }
+
       } catch (error) {
         console.log(error);
       }
