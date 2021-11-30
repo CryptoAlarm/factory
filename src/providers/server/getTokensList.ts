@@ -1,17 +1,15 @@
 import axios from "axios"
 
 import "dotenv/config"
+import { Tokens } from "../../types/server/token";
 import serverAPI from "./api"
+import {endpoint} from "../../config/server/server"
+import { data } from "../../types/server/token"
 
 
-interface TokensProps{
+export const getTokensList = async () => {
+
+//  const { data } = await serverAPI.get<Tokens[]>(endpoint)
   
-  contract: string
-  ref: string
-  network: string
-  isCoingecko: boolean
-}
-export const getTokensList = () => {
-
-  serverAPI.get<TokensProps>("/getPrice")
+  return data
 }
