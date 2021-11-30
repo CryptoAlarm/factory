@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { TokenData, Providers, Tokens, TokensReduced } from "./types/server/token";
 import { ProvidersMap, ProvidersConfig } from "./providers.map";
 
@@ -75,8 +76,10 @@ let Tokens = [] as Tokens[]
             * Since only coingecko return subcurrencies value, 
             * we share it with another Providers aka pancake, apeswap...
             */
-            ProvidersConfig.prices.prices.brl = response["binance-usd"].brl
-            ProvidersConfig.prices.prices.php = response["binance-usd"].php
+            ProvidersConfig.ListCurrenciesArray.forEach((currency) => {
+              ProvidersConfig.prices
+                .prices[currency] = response["binance-usd"][currency]
+            })
           }
   
         } catch (error) {

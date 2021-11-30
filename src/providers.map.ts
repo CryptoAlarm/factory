@@ -9,6 +9,8 @@ import { ListCurrencies, ListCurrenciesArray } from "./types/server/token"
 
 export const ProvidersConfig = {
 
+  ListCurrenciesArray,
+
   prices: {
     prices: ListCurrenciesArray.reduce((a,b) => {
       a[b] = a[b] || []
@@ -31,7 +33,7 @@ export const ProvidersMap = {
     return PancakeswapPrice({
       ref,
       contract,
-      ...ProvidersConfig.prices,
+      ...ProvidersConfig.prices.prices,
     });
   },
 
@@ -40,10 +42,10 @@ export const ProvidersMap = {
   },
 
   factorychain: async ({ contract, ref }) => {
-    return FactoryChain(ProvidersConfig.prices);
+    return FactoryChain(ProvidersConfig.prices.prices);
   },
 
   mir4: async ({ contract, ref }) => {
-    return Mir4(ProvidersConfig.prices);
+    return Mir4(ProvidersConfig.prices.prices);
   },
 };
