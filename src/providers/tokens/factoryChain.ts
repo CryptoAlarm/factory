@@ -1,6 +1,7 @@
 import axios from "axios";
-import {FactorychainResponse, FactoryChainProps, TokenData} from "../../types"
+import {FactorychainResponse,  TokenData} from "../../types"
 import {endpoint, query} from "../../config/token/factoryChain"
+import { ListCurrencies, ListCurrenciesArray } from "../../types/server/token";
 
 
 /** 
@@ -20,7 +21,7 @@ import {endpoint, query} from "../../config/token/factoryChain"
  * if you cannot find any match of pair FPVU => FUSD or FUSD => FPVU, module will
  * throw a exception (maybe increase the limit)
  */
-export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<TokenData>> => {
+export const FactoryChain = async (prices: typeof ListCurrencies): Promise<Partial<TokenData>> => {
  
   try {
     let TokenData = {} as TokenData
@@ -75,8 +76,12 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
 
         TokenData["fpvu"] = {
           usd: ((fusd / fpvu)),
-          brl: ((fusd / fpvu)) * (props.prices.brl || 0),
-          php: ((fusd / fpvu)) * (props.prices.php || 0)
+
+          ...ListCurrenciesArray.reduce((a,b) => {
+            a[b] = a[b] || [0];
+            a[b] = ((fusd / fpvu)) * (prices[b] || 0)
+            return a
+          }, {}) as typeof ListCurrencies
         }
       }
     
@@ -88,8 +93,12 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
 
         TokenData["fpvu"] = {
           usd: ((fusd / fpvu)),
-          brl: ((fusd / fpvu)) * (props.prices.brl || 0),
-          php: ((fusd / fpvu)) * (props.prices.php || 0)
+
+          ...ListCurrenciesArray.reduce((a,b) => {
+            a[b] = a[b] || [0];
+            a[b] = ((fusd / fpvu)) * (prices[b] || 0)
+            return a
+          }, {}) as typeof ListCurrencies
         }
       }
     }
@@ -103,8 +112,12 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
 
         TokenData["fpvu"] = {
           usd: ((fusd / fpvu)),
-          brl: ((fusd / fpvu)) * (props.prices.brl || 0),
-          php: ((fusd / fpvu)) * (props.prices.php || 0)
+
+          ...ListCurrenciesArray.reduce((a,b) => {
+            a[b] = a[b] || [0];
+            a[b] = ((fusd / fpvu)) * (prices[b] || 0)
+            return a
+          }, {}) as typeof ListCurrencies
         }
       }
       //Se o token1 é FUSD e a saida foi zero, ELE COMPROU FPVU
@@ -115,8 +128,12 @@ export const FactoryChain = async (props: FactoryChainProps): Promise<Partial<To
 
         TokenData["fpvu"] = {
           usd: ((fusd / fpvu)),
-          brl: ((fusd / fpvu)) * (props.prices.brl || 0),
-          php: ((fusd / fpvu)) * (props.prices.php || 0)
+
+          ...ListCurrenciesArray.reduce((a,b) => {
+            a[b] = a[b] || [0];
+            a[b] = ((fusd / fpvu)) * (prices[b] || 0)
+            return a
+          }, {}) as typeof ListCurrencies
         }
       }
     }

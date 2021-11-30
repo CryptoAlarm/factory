@@ -1,5 +1,5 @@
 import { coinGeckoApiURL, currencyList } from "../../config/token/coingecko"
-import {CoingeckoResponse, TokenData} from "../../types"
+import { TokenData} from "../../types"
 import axios from "axios"
 
 const buildEndpointURL = (token: string): string => {
@@ -16,7 +16,7 @@ export const coinGeckoPrice = async (tokenList: string[]): Promise<Partial<Token
    
     const endpoint = buildEndpointURL(tokenListWrapped)
 
-    const { data } = await axios.get<CoingeckoResponse>(endpoint);
+    const { data } = await axios.get<TokenData>(endpoint);
 
     if (!data) return {}
 

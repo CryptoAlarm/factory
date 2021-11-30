@@ -1,5 +1,6 @@
 
 import {endpoint } from "../../config/token/pancake"
+import { ListCurrenciesArray , ListCurrencies} from "../../types/server/token"
 
 import axios from "axios"
 import { TokenData, PancakeswapProps,PancakeResponse } from "../../types"
@@ -9,12 +10,12 @@ function insert(str: string, index: number, value: string) {
 }
 
 
-export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial<TokenData>>  => {
+export const PancakeswapPrice = async (props: PancakeswapProps & typeof ListCurrencies):  Promise<Partial<TokenData>>  => {
   
   try {      
     let TokenData = {}
 
-    let { contract, ref } = props
+    let {contract, ref } = props
 
     contract = contract.toLowerCase()
     
@@ -24,12 +25,10 @@ export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial
       throw Error("Unknow address")
     }
 
-    let price = 0;
+    let value = 0;
 
-   
-  
     if (response.data.name === "unknown" || 
-        response.data.symbol === "unknown") 
+        response.data.symbol === "unknown" ) 
     {
       /**
        * Sometimes pancakeswap response is wrong formated, 
@@ -39,30 +38,31 @@ export const PancakeswapPrice = async (props: PancakeswapProps): Promise<Partial
        * WARNING: if response is wrong formated and decimal parts isnt 18,
        * you should change below
        */
-
       const DECIMAL_PARTS = 18
       
       let temp = response.data.price.split(".")[1] || ""
-      price = parseFloat(insert(temp, DECIMAL_PARTS, ".")) 
+      value = parseFloat(insert(temp, DECIMAL_PARTS, ".")) 
     }
 
     else {
-      price = parseFloat(response.data.price)
+      value = parseFloat(response.data.price)
     }
 
+    if (!value) throw new Error ("There isn't value in " + ref)
    
     TokenData[ref] = {     
-      brl: price * (props.prices.brl || 0),
-      php: price * (props.prices.php || 0),
-      usd: price
+      usd: value,
 
+      ...ListCurrenciesArray.reduce((a,b) => {
+        a[b] = a[b] || [0];
+        a[b] = value * (props[b] || 0)
+        return a
+      }, {})
     }
 
     return TokenData
   
   } catch (error) {
-
-    console.log(error)
     
     return {}
   }

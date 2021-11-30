@@ -4,9 +4,10 @@ import axios from "axios"
 import {endpoint} from "../../config/token/mir4"
 
 
-import {Mir4Props, Mir4Response, TokenData} from "../../types"
+import { Mir4Response, TokenData} from "../../types"
+import { ListCurrencies, ListCurrenciesArray } from "../../types/server/token"
 
-export const Mir4  = async (props: Mir4Props): Promise<Partial<TokenData>> => {
+export const Mir4  = async (prices: typeof ListCurrencies): Promise<Partial<TokenData>> => {
 
   try{
     let TokenData = {} as TokenData
@@ -21,8 +22,12 @@ export const Mir4  = async (props: Mir4Props): Promise<Partial<TokenData>> => {
 
       TokenData["draco"] = {
         usd: USDdracoPrice,
-        brl: USDdracoPrice * (props.prices.brl || 0),
-        php: USDdracoPrice * (props.prices.php || 0),
+
+        ...ListCurrenciesArray.reduce((a,b) => {
+          a[b] = a[b] || [0];
+          a[b] = (USDdracoPrice) * (prices[b] || 0)
+          return a
+        }, {}) as typeof ListCurrencies
       }      
     }
 
