@@ -4,14 +4,18 @@ import { FactoryChain } from "./providers/tokens/factoryChain";
 import { Mir4 } from "./providers/tokens/mir4";
 import { ApeSwapWeb3Client } from "./providers/tokens/apeswap";
 
-export const ProvidersConfig = {
-  prices: {
-    prices: {
-      brl: 0,
-      php: 0,
-    },
-  },
+import { ListCurrencies, ListCurrenciesArray } from "./types/server/token"
 
+
+export const ProvidersConfig = {
+
+  prices: {
+    prices: ListCurrenciesArray.reduce((a,b) => {
+      a[b] = a[b] || []
+      a[b] = 0
+      return a
+    } , {}) as typeof ListCurrencies
+  },
   apeswapClient: new ApeSwapWeb3Client({
     network: "bscscan",
     refreshBnbInSeconds: 15,
