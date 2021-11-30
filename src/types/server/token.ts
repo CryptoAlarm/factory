@@ -1,10 +1,28 @@
+
+/*const __Currencies = <const>['brl', 'usd', 'php', 'eur', 'gdp']
+
+const builder = __Currencies;
+
+export type Currencies = typeof builder[number];*/
+
+
+export const ListCurrencies = {
+  brl: 0,
+  usd: 0,
+  php: 0,
+  eur: 0,
+  gdp: 0,
+}
+
+export type Currencies = keyof typeof ListCurrencies
 export interface TokenData {
   [key: string]: {
-    brl: number;
-    usd: number;
-    php: number;
-  };
+    [key in Currencies]: number
+  }
 }
+
+
+export const ListCurrenciesArray = Object.keys(ListCurrencies) as Currencies[]
 
 export type Providers =
   | "apeswap"
@@ -19,7 +37,7 @@ export interface Tokens {
   api: Providers;
 }
 
-export type TokensReduce = {
+export type TokensReduced = {
   [key in Providers]: Partial<Tokens>[];
 };
 
@@ -54,5 +72,20 @@ export const data: Tokens[] = [
     api: "coingecko",
     contract: "",
     ref: "cardano",
+  },
+  {
+    api: "mir4",
+    contract: "",
+    ref: "draco",
+  },
+  {
+    api: "factorychain",
+    contract: "",
+    ref: "fpvu",
+  },
+  {
+    api: "coingecko",
+    contract: "",
+    ref: "binance-usd",
   },
 ]
