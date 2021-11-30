@@ -42,12 +42,3 @@ export interface FactorychainResponse {
   }
 }
 
-
-export interface FactoryChainProps {
-
-  prices: {
-    brl: number,
-    php: number
-  }
-
-}

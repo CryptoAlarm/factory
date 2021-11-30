@@ -1,13 +1,4 @@
 
-export interface Mir4Props {
-
-  prices: {
-    brl: number,
-    php: number
-  }
-
-}
-
 export interface Mir4Response {
   Code: number
   Data: {

@@ -3,11 +3,6 @@ export interface PancakeswapProps {
   contract: string
   ref: string //bot name reference
 
-  prices: {
-    brl: number,
-    php: number
-  }
-
 }
 export interface PancakeResponse {
   updated_at: number,

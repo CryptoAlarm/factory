@@ -1,18 +1,15 @@
-
 /*const __Currencies = <const>['brl', 'usd', 'php', 'eur', 'gdp']
-
 const builder = __Currencies;
-
 export type Currencies = typeof builder[number];*/
-
-
 export const ListCurrencies = {
   brl: 0,
   usd: 0,
   php: 0,
   eur: 0,
-  gdp: 0,
+  gbp: 0,
+  btc: 0
 }
+
 
 export type Currencies = keyof typeof ListCurrencies
 export interface TokenData {
@@ -20,7 +17,6 @@ export interface TokenData {
     [key in Currencies]: number
   }
 }
-
 
 export const ListCurrenciesArray = Object.keys(ListCurrencies) as Currencies[]
 
@@ -42,10 +38,13 @@ export type TokensReduced = {
 };
 
 
+/**
+ * Example 
+ */
 export const data: Tokens[] = [
   {
     api: "pancakeswap",
-    contract: "0x339c72829ab7dd45c3c52f965e7abe358dd8761e",
+    contract: "0x339c72829abd45c3c52f965e7abe358dd8761e",
     ref: "wanaka-farm",
   },
   {
