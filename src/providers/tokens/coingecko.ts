@@ -1,4 +1,4 @@
-import { coinGeckoApiURL, currencyList } from "../../config/coingecko"
+import { coinGeckoApiURL, currencyList } from "../../config/token/coingecko"
 import {CoingeckoResponse, TokenData} from "../../types"
 import axios from "axios"
 

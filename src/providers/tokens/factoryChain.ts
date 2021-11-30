@@ -1,6 +1,6 @@
 import axios from "axios";
 import {FactorychainResponse, FactoryChainProps, TokenData} from "../../types"
-import {endpoint, query} from "../../config/factoryChain"
+import {endpoint, query} from "../../config/token/factoryChain"
 
 
 /** 

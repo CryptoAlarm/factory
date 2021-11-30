@@ -5,13 +5,13 @@ import {
   tokenAbi,
   apeswapAbi,
   apeswapContract,
-} from "../../config/apeswap";
+} from "../../config/token/apeswap";
 
 import {
   BNBTokenAddress,
   USDTokenAddress,
   BscscanEndpoint,
-} from "../../config/bscscan";
+} from "../../config/token/bscscan";
 
 import { TokenPriceConfig, blockChainConfig } from "../../types";
 

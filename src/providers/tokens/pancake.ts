@@ -1,5 +1,5 @@
 
-import {endpoint } from "../../config/pancake"
+import {endpoint } from "../../config/token/pancake"
 
 import axios from "axios"
 import { TokenData, PancakeswapProps,PancakeResponse } from "../../types"

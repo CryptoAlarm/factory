@@ -10,7 +10,7 @@ import {
   NFTEntitiesV2,
   BigNumberParse,
   LandsProps
-} from "../../types/wanaka.marketplace";
+} from "../../types/tools/wanaka.marketplace";
 
 import axios from "axios";
 

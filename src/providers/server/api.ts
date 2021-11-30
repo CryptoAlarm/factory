@@ -1,5 +1,5 @@
 import axios from "axios"
-import {endpoint} from "../../config/server" 
+import {endpoint} from "../../config/server/server" 
 
 export default axios.create({
   baseURL: endpoint,

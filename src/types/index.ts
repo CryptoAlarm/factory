@@ -1,9 +1,9 @@
-import {TokenData} from "./token"
-import {PancakeResponse, PancakeswapProps}  from "./pancake"
-import {CoingeckoResponse}  from "./coingecko"
-import {FactorychainResponse, FactoryChainProps}  from "./factoryChain"
-import {Mir4Props, Mir4Response}  from "./mir4"
-import {Currency, Network, TokenPriceConfig, blockChainConfig, subCurrency}  from "./apeswap"
+import {TokenData} from "./server/token"
+import {PancakeResponse, PancakeswapProps}  from "./token/pancake"
+import {CoingeckoResponse}  from "./token/coingecko"
+import {FactorychainResponse, FactoryChainProps}  from "./token/factoryChain"
+import {Mir4Props, Mir4Response}  from "./token/mir4"
+import {Currency, Network, TokenPriceConfig, blockChainConfig, subCurrency}  from "./token/apeswap"
 
 export {
   TokenData,

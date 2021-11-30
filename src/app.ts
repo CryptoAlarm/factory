@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TokenData, Providers, Tokens, TokensReduce } from "./types/token";
+import { TokenData, Providers, Tokens, TokensReduce } from "./types/server/token";
 import { ProvidersMap, ProvidersConfig } from "./providers.map";
 
 let TokenPricesList = {} as TokenData;
@@ -32,6 +32,7 @@ let TokenPricesList = {} as TokenData;
    * 
    * Response will be assign into a global variable TokenPricesList that should be POSTed to server
    */
+  
   Object.keys(Tokens).map(async (key: Providers) => {
 
     /**
@@ -53,7 +54,7 @@ let TokenPricesList = {} as TokenData;
       })
     } else if (key === "coingecko") {
       try {
-        const refList = Tokens[key]?.map((token) => token.ref)
+        const refList = Tokens[key]?.map((token) => token.ref )
 
         let response = await ProvidersMap[key].call(this, { refList })
 
