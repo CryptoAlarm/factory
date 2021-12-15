@@ -1,11 +1,7 @@
 import {
   WanakaMarketResponse,
-  EndpointAPI,
   EndpointLand,
   LandApiResponse,
-  NFTEntities,
-  TransactionsResponse,
-  TransactionsEntities,
   EndpointAPI2,
   NFTEntitiesV2,
   BigNumberParse,
@@ -18,9 +14,7 @@ import axios from "axios";
 
 export const WanakaLandsInfo = async (landID: number): Promise<Partial<LandsProps>> => {
   try {
-    const responseLand = await axios.get(`${EndpointLand}/${landID}`);
-    const Land: LandApiResponse = responseLand.data;
-
+    const {data: Land} = await axios.get<LandApiResponse>(`${EndpointLand}/${landID}`);
     const responseNFT = await axios.post(EndpointAPI2, NFTEntitiesV2(landID));
 
     const data: WanakaMarketResponse = responseNFT.data.data.nftentities[0];
