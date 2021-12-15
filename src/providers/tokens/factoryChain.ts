@@ -21,6 +21,7 @@ import { ListCurrencies, ListCurrenciesArray } from "../../types/server/token";
  * if you cannot find any match of pair FPVU => FUSD or FUSD => FPVU, module will
  * throw a exception (maybe increase the limit)
  */
+
 export const FactoryChain = async (prices: typeof ListCurrencies): Promise<Partial<TokenData>> => {
  
   try {

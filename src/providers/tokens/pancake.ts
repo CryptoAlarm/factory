@@ -1,9 +1,9 @@
 
-import {endpoint } from "../../config/token/pancake"
-import { ListCurrenciesArray , ListCurrencies} from "../../types/server/token"
+import { endpoint } from "../../config/token/pancake"
+import { ListCurrenciesArray , ListCurrencies, TokenData} from "../../types/server/token"
 
 import axios from "axios"
-import { TokenData, PancakeswapProps,PancakeResponse } from "../../types"
+import { PancakeswapProps, PancakeResponse } from "../../types"
 
 function insert(str: string, index: number, value: string) {
   return str.substr(0, index) + value + str.substr(index);
@@ -15,7 +15,7 @@ export const PancakeswapPrice = async (props: PancakeswapProps & typeof ListCurr
   try {      
     let TokenData = {}
 
-    let {contract, ref } = props
+    let { contract, ref } = props
 
     contract = contract.toLowerCase()
     
@@ -40,8 +40,8 @@ export const PancakeswapPrice = async (props: PancakeswapProps & typeof ListCurr
        */
       const DECIMAL_PARTS = 18
       
-      let temp = response.data.price.split(".")[1] || ""
-      value = parseFloat(insert(temp, DECIMAL_PARTS, ".")) 
+      let split = response.data.price.split(".")[1] || ""
+      value = parseFloat(insert(split, DECIMAL_PARTS, ".")) 
     }
 
     else {
