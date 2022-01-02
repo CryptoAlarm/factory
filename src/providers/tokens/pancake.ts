@@ -63,7 +63,6 @@ export const PancakeswapPrice = async (props: PancakeswapProps & typeof ListCurr
     return TokenData
   
   } catch (error) {
-    
     return {}
   }
 }

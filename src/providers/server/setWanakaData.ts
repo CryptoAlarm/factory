@@ -2,11 +2,12 @@
 import { TokenData } from "../../types/server/token"
 import {endpoint} from "../../config/server/server"
 import api from "./api"
+import { LandsProps } from "../../types/tools/wanaka.marketplace"
 
 
-export const setTokensPrices = async (tokenData: TokenData) => {
+export const setWanakaLands = async (Lands: LandsProps[]) => {
   try {
-    await api.post(`${endpoint}/private/historyPrices`,  tokenData)
+    api.post(`${endpoint}/private/tools/wanakafarm`,  Lands)
     return true
   } catch (error) { 
     console.log(error)

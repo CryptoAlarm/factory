@@ -7,7 +7,7 @@ import { ListCurrencies, ListCurrenciesArray } from "../../types/server/token";
 /** 
  * Maybe in the future there is some API that will make easier
  * fetch prices on FactoryChain, by now, once way I find out is
- * tracking graphql api that scan.factorychain request from it front-end.
+ * tracking graphql api that scan.factorychain request from itself front-end.
  * 
  * It's quite simple, we POST the endpoint that provide transactions history, 
  * listing the last 50 transactions (you can change the limit on /src/config/factoryChain.ts query)

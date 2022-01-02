@@ -12,7 +12,7 @@ import axios from "axios";
 
 
 
-export const WanakaLandsInfo = async (landID: number): Promise<Partial<LandsProps>> => {
+export const WanakaMarketplaceProvider = async (landID: number): Promise<Partial<LandsProps>> => {
   try {
     const {data: Land} = await axios.get<LandApiResponse>(`${EndpointLand}/${landID}`);
     const responseNFT = await axios.post(EndpointAPI2, NFTEntitiesV2(landID));

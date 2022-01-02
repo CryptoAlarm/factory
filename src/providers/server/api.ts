@@ -5,6 +5,6 @@ import "dotenv/config"
 export default axios.create({
   baseURL: endpoint,
   headers: {
-    authorization: `Bearer ${process.env.AUTHORIZATION}`
+    authorization: `Bearer ${process.env.ACCESS_TOKEN}`
   }
 })

@@ -7,7 +7,7 @@ export const ListCurrencies = {
   php: 0,
   eur: 0,
   gbp: 0,
-  btc: 0
+  thb: 0
 }
 
 
@@ -36,55 +36,3 @@ export interface Tokens {
 export type TokensReduced = {
   [key in Providers]: Partial<Tokens>[];
 };
-
-
-/**
- * Example 
- */
-export const data: Tokens[] = [
-  {
-    api: "pancakeswap",
-    contract: "0x339c72829abd45c3c52f965e7abe358dd8761e",
-    ref: "wanaka-farm",
-  },
-  {
-    api: "pancakeswap",
-    contract: "0x00e1656e45f18ec6747f5a8496fd39b50b38396d",
-    ref: "bombcrypto",
-  },
-  {
-    api: "mir4",
-    contract: "",
-    ref: "draco",
-  },
-  {
-    api: "coingecko",
-    contract: "",
-    ref: "ethereum",
-  },
-  {
-    api: "coingecko",
-    contract: "",
-    ref: "bitcoin",
-  },
-  {
-    api: "coingecko",
-    contract: "",
-    ref: "cardano",
-  },
-  {
-    api: "mir4",
-    contract: "",
-    ref: "draco",
-  },
-  {
-    api: "factorychain",
-    contract: "",
-    ref: "fpvu",
-  },
-  {
-    api: "coingecko",
-    contract: "",
-    ref: "binance-usd",
-  },
-]

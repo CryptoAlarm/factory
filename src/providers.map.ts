@@ -5,6 +5,7 @@ import { Mir4 } from "./providers/tokens/mir4";
 import { ApeSwapWeb3Client } from "./providers/tokens/apeswap";
 
 import { ListCurrencies, ListCurrenciesArray } from "./types/server/token"
+import { WanakaMarketplaceProvider } from "./providers/tools/wanaka.marketplace";
 
 
 export const ProvidersConfig = {
@@ -48,4 +49,10 @@ export const ProvidersMap = {
   mir4: async ({ contract, ref }) => {
     return Mir4(ProvidersConfig.prices.prices);
   },
+
+  tools: {
+    wanaka: (landID) => {
+      return WanakaMarketplaceProvider(landID)
+    }
+  }
 };

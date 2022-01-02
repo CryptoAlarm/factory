@@ -17,6 +17,8 @@
     "web3-eth-contract": "^1.6.1"
   },
   "scripts": {
-    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts"
+    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts",
+    "build": "rm -rf ./dist && tsc --build",
+    "start": "node ./dist/app.js"
   }
 }
