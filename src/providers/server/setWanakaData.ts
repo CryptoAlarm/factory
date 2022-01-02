@@ -10,7 +10,7 @@ export const setWanakaLands = async (Lands: LandsProps[]) => {
     api.post(`${endpoint}/private/tools/wanakafarm`,  Lands)
     return true
   } catch (error) { 
-    console.log(error)
+    console.log("Failed to push wanaka informations")
     return false 
   }
 
