@@ -9,7 +9,12 @@ export const setTokensPrices = async (tokenData: TokenData) => {
     await api.post(`${endpoint}/private/historyPrices`,  tokenData)
     return true
   } catch (error) { 
-    console.log(error)
+    
+    console.log(`Failed to setTokensPrice. `)
+    console.error({
+      name: error.name?.substr(0, 150),
+      message: error.message?.substr(0, 150),
+    })
     return false 
   }
 
