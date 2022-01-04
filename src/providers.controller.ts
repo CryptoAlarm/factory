@@ -1,5 +1,6 @@
 import { ProvidersMap, ProvidersConfig } from "./providers.map";
 import { getTokensList, setTokensPrices } from "./providers/server/";
+import { getDirhamMadPrice } from "./providers/server/getDirhamMadPrice";
 import { setWanakaLands } from "./providers/server/setWanakaData";
 import {
   TokenData,
@@ -69,11 +70,17 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
            * Schedule to upsert ProvidersConfig prices object.
            * Since only coingecko return subcurrencies value,
            * we share it with another Providers aka pancake, apeswap...
+           * 
+           * Personal request to add MAD currency by @MomRabeh
            */
+          ProvidersConfig.prices.prices["mad"] = getDirhamMadPrice()
+
           ProvidersConfig.ListCurrenciesArray.forEach((currency) => {
             ProvidersConfig.prices.prices[currency] =
               response["binance-usd"]?.[currency];
           });
+           
+       
         }
       } catch (error) {}
     }

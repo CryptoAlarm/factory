@@ -7,7 +7,8 @@ export const ListCurrencies = {
   php: 0,
   eur: 0,
   gbp: 0,
-  thb: 0
+  thb: 0,
+  mad: 0
 }
 
 
