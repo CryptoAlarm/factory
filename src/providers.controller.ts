@@ -32,8 +32,6 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
      */
     if (!ProvidersMap.hasOwnProperty(api)) {
       //Not supported Provider
-
-      console.log(`${api} not supported`, TokensReduced)
       return false
     }
 

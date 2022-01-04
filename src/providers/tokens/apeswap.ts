@@ -13,7 +13,9 @@ import {
   BscscanEndpoint,
 } from "../../config/token/bscscan";
 
-import { TokenPriceConfig, blockChainConfig } from "../../types";
+
+import { ListCurrencies, ListCurrenciesArray } from "../../types/server/token";
+import { TokenPriceConfig, blockChainConfig, TokenData } from "../../types";
 
 export class ApeSwapWeb3Client {
 
@@ -134,14 +136,12 @@ export class ApeSwapWeb3Client {
 
   
 
-  #getPriceMainnetNetwork = async (tokenAddress: string): Promise<number> => {
+  #getPriceMainnetNetwork = async (tokenAddress: string): Promise<TokenData> => {
     // NEED TO FIND A WAY TO FETCH MAINNET ERC-20 coins
-    return 0;
+    return {};
   }
 
-  #getPriceSmartchainNetwork = async (
-    tokenAddress: string
-  ): Promise<number> => {
+  #getPriceSmartchainNetwork = async (tokenAddress: string) => {
     let tokensToSell = 1;
 
     let fetchedPrice = await this.#fetchTokenPrice(tokensToSell, tokenAddress);
@@ -149,71 +149,37 @@ export class ApeSwapWeb3Client {
     return (fetchedPrice / tokensToSell);
   }
 
-  getPriceBUSDBased = async (tokenAddress: string): Promise<number> => {
+  getPriceBUSDBased = async (
+    tokenAddress: string, 
+    ref: string, 
+    prices: typeof ListCurrencies
+  ): Promise<TokenData> => {
+   
+    let TokenData = {} as TokenData
+
     if (this.#config.network === "bscscan") {
       if (this.#bnbPrice === 0) {
         this.#bnbPrice = await this.#fetchBnbPrice();
       }
 
-      return await this.#getPriceSmartchainNetwork(tokenAddress);
+      const usd = await this.#getPriceSmartchainNetwork(tokenAddress)
 
-    } else if (this.#config.network === "eth_mainnet") {
-      return await this.#getPriceMainnetNetwork(tokenAddress);
-    }
-
-    return 0;
-  }
-  
-
-
-
-  #fetchTokenPriceBasedBNBPRICE = async (tokens: number, tokenAddress: string): Promise<number> => {
-    let tokenRouter = new this.#web3.eth.Contract(tokenAbi, tokenAddress);
-    let tokenDecimals = await tokenRouter.methods.decimals().call();
-
-    const tokensToSell = this.#setDecimals(tokens, tokenDecimals);
-
-    let amountOut;
-
-    try {
-      amountOut = await this.#ApeswapContract.methods
-        .getAmountsOut(tokensToSell, [tokenAddress, BNBTokenAddress])
-        .call();
-
-      amountOut = this.#web3.utils.fromWei(amountOut[1]);
-    } catch (error) {}
-
-    if (!amountOut) return 0;
-
-    return amountOut;
-  }
-
-
-  #getPriceSmartchainNetworkBNBBased = async (
-    tokenAddress: string
-  ): Promise<number> => {
-    let tokensToSell = 1;
-
-    let fetchedPrice = await this.#fetchTokenPriceBasedBNBPRICE(tokensToSell, tokenAddress);
-
-    return (fetchedPrice / tokensToSell) * this.#bnbPrice;
-  }
-
-
-  getPriceBNBBased = async (tokenAddress: string): Promise<number> => {
-    if (this.#config.network === "bscscan") {
-      if (this.#bnbPrice === 0) {
-        this.#bnbPrice = await this.#fetchBnbPrice();
+      TokenData[ref] = {
+        usd,
+        ...ListCurrenciesArray.reduce((a,b) => {
+          a[b] = a[b] || [0];
+          a[b] = (usd) * (prices[b] || 0)
+          return a
+        }, {}) as typeof ListCurrencies
       }
 
-      return await this.#getPriceSmartchainNetworkBNBBased(tokenAddress);
-
-    } else if (this.#config.network === "eth_mainnet") {
+      return TokenData;
+    } 
+    else if (this.#config.network === "eth_mainnet") {
       return await this.#getPriceMainnetNetwork(tokenAddress);
     }
 
-    return 0;
+    return {};
   }
   
-
 }

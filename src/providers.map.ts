@@ -39,8 +39,11 @@ export const ProvidersMap = {
   },
 
   apeswap: async ({ contract, ref }) => {
-    console.log(`[debug] APESWAP ${contract} `)
-    return ProvidersConfig.apeswapClient.getPriceBUSDBased(contract);
+    return ProvidersConfig.apeswapClient.getPriceBUSDBased(
+      contract, 
+      ref,
+      ProvidersConfig.prices.prices
+    );
   },
 
   factorychain: async ({ contract, ref }) => {
