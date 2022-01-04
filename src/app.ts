@@ -2,8 +2,8 @@ import "./providers.controller"
 
 
 process.on("uncaughtException", (error, origin ) => {
-
-  console.log("catch supremo")
+  /**
+   *   console.log("catch supremo")
 
   try {
     console.error({
@@ -17,5 +17,8 @@ process.on("uncaughtException", (error, origin ) => {
   catch (error) {
     
   }
+   * 
+   */
+
 
 })

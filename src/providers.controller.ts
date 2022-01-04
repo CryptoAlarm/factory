@@ -24,21 +24,23 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
    *
    * Response will be assign into a global variable TokenPricesList that should be POSTed to server
    */
-  Object.keys(TokensReduced).map(async (key: Providers) => {
+  Object.keys(TokensReduced).map(async (api: Providers) => {
     /**
      * Coingecko API supports all entire references in once request,
      * that means we pass all reference-id in a string[] to coingecko Provider.     *
      * the rest are called one by one
      */
-    if (!ProvidersMap.hasOwnProperty(key)) {
+    if (!ProvidersMap.hasOwnProperty(api)) {
       //Not supported Provider
+
+      console.log(`${api} not supported`, TokensReduced)
       return false
     }
 
-    if (key !== "coingecko") {
-      TokensReduced[key]?.map(async (token) => {
+    if (api !== "coingecko") {
+      TokensReduced[api]?.map(async (token) => {
         try {
-          const price = await ProvidersMap[key]?.call(this, token);
+          const price = await ProvidersMap[api]?.call(this, token);
 
           if (price?.[token.ref]?.usd) {
             TokenPricesList = {
@@ -46,15 +48,14 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
               ...price,
             };
           }
-        } catch (error) {
-        }
+        } catch (error) { }
       });
     } 
-    else if (key === "coingecko") {
+    else if (api === "coingecko") {
       try {
-        const refList = TokensReduced[key]?.map((token) => token.ref);
+        const refList = TokensReduced[api]?.map((token) => token.ref);
 
-        let response = await ProvidersMap[key].call(this, { refList });
+        let response = await ProvidersMap[api].call(this, { refList });
 
         let keys = Object.keys(response);
 
@@ -76,8 +77,7 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
               response["binance-usd"]?.[currency];
           });
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   });
 }
@@ -132,8 +132,6 @@ async function WanakaToolsFetch(landID: number): Promise<void> {
     TokensReduced = await Promise.resolve(FormatTokens(Tokens));    
   }, 1000 * 60)
 
-
-
   /**
    *  Fetch prices builded on @var TokensReduced. Result will be 
    *  stored on global escope @var TokenPricesList.
@@ -147,8 +145,6 @@ async function WanakaToolsFetch(landID: number): Promise<void> {
    */
   setInterval(() => PricesFetchByTokenReference(TokensReduced), 1000 * 15);
 
-  
-
   /**
    * Since is there 15000 lands to cache and refresh data,
    * looking for keep it health to handle requests, we are 
@@ -157,7 +153,6 @@ async function WanakaToolsFetch(landID: number): Promise<void> {
    * 
    * Wanakafarm endpoint has cloudfare DDoS protection, that means
    * if you overrequest it API, you can be blocked for a couple while.
-   * 
    */
   let i = 0
   setInterval(() => {
