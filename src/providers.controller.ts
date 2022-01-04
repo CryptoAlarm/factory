@@ -72,15 +72,11 @@ function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
            * we share it with another Providers aka pancake, apeswap...
            * 
            * Personal request to add MAD currency by @MomRabeh
-           */
-          ProvidersConfig.prices.prices["mad"] = getDirhamMadPrice()
-
+           */     
           ProvidersConfig.ListCurrenciesArray.forEach((currency) => {
             ProvidersConfig.prices.prices[currency] =
-              response["binance-usd"]?.[currency];
-          });
-           
-       
+             response["binance-usd"]?.[currency];           
+          });       
         }
       } catch (error) {}
     }

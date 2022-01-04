@@ -1,6 +1,7 @@
 import { coinGeckoApiURL, currencyList } from "../../config/token/coingecko"
 import { TokenData} from "../../types"
 import axios from "axios"
+import { getDirhamMadPrice } from "../server/getDirhamMadPrice";
 
 const buildEndpointURL = (token: string): string => {
   return (
@@ -16,10 +17,19 @@ export const coinGeckoPrice = async (tokenList: string[]): Promise<Partial<Token
    
     const endpoint = buildEndpointURL(tokenListWrapped)
 
-    const { data } = await axios.get<TokenData>(endpoint);
+    let { data } = await axios.get<TokenData>(endpoint);
 
     if (!data) return {}
 
+    /**
+     *  Personal request to add MAD currency by @MomRabeh
+     */
+    const mad = getDirhamMadPrice()
+
+    Object.keys(data).forEach(key => {
+      data[key].mad = data[key].usd * mad
+    })
+    
     return data;
 
   } catch (error) {
