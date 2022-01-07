@@ -8,6 +8,7 @@ export const ListCurrencies = {
   eur: 0,
   gbp: 0,
   thb: 0,
+  idr: 0,
   mad: 0
 }
 
