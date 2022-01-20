@@ -27,7 +27,8 @@ export type Providers =
   | "mir4"
   | "factorychain"
   | "pancakeswap"
-  | "coingecko";
+  | "coingecko"
+  | "wax";
 
 export interface Tokens {
   ref: string;

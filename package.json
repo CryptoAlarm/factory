@@ -12,12 +12,14 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
     "dotenv": "^10.0.0",
     "web3": "^1.6.1",
     "web3-eth-contract": "^1.6.1"
   },
   "scripts": {
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts",
+    "test": "tsnd --transpile-only --respawn --ignore-watch node_modules src/test.ts",
     "build": "rm -rf ./dist && tsc --build",
     "start": "node ./dist/app.js"
   }
