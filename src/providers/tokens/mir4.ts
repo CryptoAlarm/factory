@@ -1,7 +1,7 @@
 
 import axios from "axios"
 
-import {endpointDraco, endpointHydra} from "../../config/token/mir4"
+import {endpoint} from "../../config/token/mir4"
 
 
 import { Mir4Response, TokenData} from "../../types"
@@ -15,11 +15,11 @@ export const Mir4  = async (prices: typeof ListCurrencies): Promise<Partial<Toke
     const tokens = ["Draco", "Hydra"]
 
     for (const token of tokens) {
-      const {data} = await axios.post<Mir4Response>(endpointDraco)
+      const {data} = await axios.post<Mir4Response>(endpoint[token])
             
-      if (data?.Data?.[token + "Price"]) {
+      if (data?.Data?.[`${token}Price`]) {
         
-        const usdPrice = parseFloat(data?.Data?.["USD"+token+"Rate"])
+        const usdPrice = parseFloat(data?.Data?.[`USD${token}Rate`])
   
         TokenData[token.toLowerCase()] = {
           usd: usdPrice,
@@ -32,6 +32,9 @@ export const Mir4  = async (prices: typeof ListCurrencies): Promise<Partial<Toke
         }      
       }
     }
+
+    console.log("Mir4 schedule")
+    console.log(TokenData)
 
     return TokenData
   }
