@@ -1,7 +1,7 @@
 
 import axios from "axios"
 
-import {endpoint} from "../../config/token/mir4"
+import {endpointDraco, endpointHydra} from "../../config/token/mir4"
 
 
 import { Mir4Response, TokenData} from "../../types"
@@ -12,23 +12,25 @@ export const Mir4  = async (prices: typeof ListCurrencies): Promise<Partial<Toke
   try{
     let TokenData = {} as TokenData
 
-    const {data} = await axios.post<Mir4Response>(endpoint)
+    const tokens = ["Draco", "Hydra"]
+
+    for (const token of tokens) {
+      const {data} = await axios.post<Mir4Response>(endpointDraco)
             
-    if (data?.Data?.DracoPrice) {
-
-      const dracoInWemix = parseFloat(data?.Data?.DracoPrice)
-      const USDWemixRate = parseFloat(data?.Data?.USDWemixRate)  
-      const USDdracoPrice = dracoInWemix * USDWemixRate;
-
-      TokenData["draco"] = {
-        usd: USDdracoPrice,
-
-        ...ListCurrenciesArray.reduce((a,b) => {
-          a[b] = a[b] || [0];
-          a[b] = (USDdracoPrice) * (prices[b] || 0)
-          return a
-        }, {}) as typeof ListCurrencies
-      }      
+      if (data?.Data?.[token + "Price"]) {
+        
+        const usdPrice = parseFloat(data?.Data?.["USD"+token+"Rate"])
+  
+        TokenData[token.toLowerCase()] = {
+          usd: usdPrice,
+  
+          ...ListCurrenciesArray.reduce((a,b) => {
+            a[b] = a[b] || [0];
+            a[b] = (usdPrice) * (prices[b] || 0)
+            return a
+          }, {}) as typeof ListCurrencies
+        }      
+      }
     }
 
     return TokenData
