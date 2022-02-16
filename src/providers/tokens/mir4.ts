@@ -33,9 +33,6 @@ export const Mir4  = async (prices: typeof ListCurrencies): Promise<Partial<Toke
       }
     }
 
-    console.log("Mir4 schedule")
-    console.log(TokenData)
-
     return TokenData
   }
   catch(err) {
