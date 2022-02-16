@@ -2,7 +2,7 @@ import { coinGeckoApiURL, currencyList } from "../../config/token/coingecko"
 import { TokenData} from "../../types"
 import axios from "axios"
 import { getDirhamMadPrice } from "../server/getDirhamMadPrice";
-import { getEsbPriceInWax } from "../server/getWaxESBContractsPrice";
+import { getAlchorWaxExchangePrices } from "../server/getAlchorWaxExchangePrices";
 
 const buildEndpointURL = (token: string): string => {
   return (
@@ -29,17 +29,20 @@ export const coinGeckoPrice = async (tokenList: string[]): Promise<Partial<Token
      */
 
     if (data["wax"]) {
-      const esb = getEsbPriceInWax()
+      const AlchorWaxExchangePrices = getAlchorWaxExchangePrices()
   
-      data["esbcontracts"] = {
-        usd: esb * data["wax"].usd,
-        eur: esb * data["wax"].eur,
-        gbp: esb * data["wax"].gbp,
-        thb: esb * data["wax"].thb,
-        php: esb * data["wax"].php,
-        idr: esb * data["wax"].idr,
-        mad: esb * 0,
-        brl: esb * data["wax"].brl,
+      for (const key in AlchorWaxExchangePrices) {
+        const {ref , value } = AlchorWaxExchangePrices[key]
+        data[ref] = {
+          usd: value * data["wax"].usd,
+          eur: value * data["wax"].eur,
+          gbp: value * data["wax"].gbp,
+          thb: value * data["wax"].thb,
+          php: value * data["wax"].php,
+          idr: value * data["wax"].idr,
+          mad: value * 0,
+          brl: value * data["wax"].brl,
+        }        
       }
     }
    

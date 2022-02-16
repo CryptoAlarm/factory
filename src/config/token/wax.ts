@@ -1,1 +1,1 @@
-export const waxEndPoint = "https://wax.alcor.exchange/api/markets/159/charts?resolution=240&"
+export const waxEndPoint = (id: string | number) => `https://wax.alcor.exchange/api/markets/${id}/charts?resolution=240&`
