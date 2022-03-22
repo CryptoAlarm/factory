@@ -1,7 +1,7 @@
 export const waxEndPoint = (id: string | number) => `https://wax.alcor.exchange/api/markets/${id}/charts?resolution=240&`
 export const AlchorExchangeSetup = {
   CFB: {
-    id: 399,
+    id: 397,
     value: 0,
     ref: "CFB",  
   },
@@ -11,7 +11,7 @@ export const AlchorExchangeSetup = {
     ref: "CFE",  
   },
   CFP: {
-    id: 397,
+    id: 399,
     value: 0,
     ref: "CFP",  
   },
