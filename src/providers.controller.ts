@@ -1,17 +1,14 @@
 import { ProvidersMap, ProvidersConfig } from "./providers.map";
 import { getTokensList, setTokensPrices } from "./providers/server/";
 import { getDirhamMadPrice } from "./providers/server/getDirhamMadPrice";
-import { setWanakaLands } from "./providers/server/setWanakaData";
 import {
   TokenData,
   Providers,
   Tokens,
   TokensReduced,
 } from "./types/server/token";
-import { LandsProps } from "./types/tools/wanaka.marketplace";
 
 let TokenPricesList = {} as TokenData;
-let LandsList: Partial<LandsProps[]> = []
 
 
 function PricesFetchByTokenReference(TokensReduced: TokensReduced): void {
@@ -97,19 +94,6 @@ function FormatTokens(Tokens: Tokens[]): TokensReduced {
     return tokens;    
   }, {} as TokensReduced);
 }
-async function WanakaToolsFetch(landID: number): Promise<void> {
-  try {
-    let response = 
-      await ProvidersMap.tools.wanaka.call(this, landID)
-
-    if (! response.itemId) {
-      throw new Error("Failed to fetch wanakamarket provider")      
-    }
-
-    LandsList.push(response)
-
-  } catch (error) { }  
-}
 
 
 ;(async () => {
@@ -146,26 +130,6 @@ async function WanakaToolsFetch(landID: number): Promise<void> {
    */
   setInterval(() => PricesFetchByTokenReference(TokensReduced), 1000 * 15);
 
-  /**
-   * Since is there 15000 lands to cache and refresh data,
-   * looking for keep it health to handle requests, we are 
-   * queueing information into LandsList, then submiting to server
-   * every 20 seconds. 
-   * 
-   * Wanakafarm endpoint has cloudfare DDoS protection, that means
-   * if you overrequest it API, you can be blocked for a couple while.
-   */
-  let i = 0
-  setInterval(() => {
-
-    const howManyFetchsPerInterval = 6;
-
-    for (let $ = 0; $ < howManyFetchsPerInterval; $++) {
-      WanakaToolsFetch(((i + ($ * 2500)) % 15000) + 1)
-    }
-
-    ++i
-  }, 3000)
 
 
   // Interval that handle submit data to API every X seconds.   
@@ -179,23 +143,6 @@ async function WanakaToolsFetch(landID: number): Promise<void> {
      */
     setTokensPrices(TokenPricesList)
     
-
-    /**
-     * @POST ${endpoint}/private/tools/wanakafarm
-     * @param LandsList 
-     * @type Partial<LandsProps[]>
-     * 
-     * Since is there 15000 lands to cache and refresh data,
-     * looking for keep it health to handle requests, we are 
-     * queueing information into LandsList, then submiting to server
-     * every 20 seconds. 
-     * 
-     * IF QUEUE HAS ANY ELEMENT, THEN SUBMIT AND CLEAN QUEUE.
-     */
-    if (LandsList.length) {      
-      await setWanakaLands(LandsList)
-      LandsList = Array()
-    }
   }, 1000 * 20)
 
 
